@@ -18,18 +18,16 @@ const totalCapacity = 11;
 
 const business = {
   name: "Graceland Bunks",
-  tagline: "Premium comfort with a stylish stay.",
+  tagline: "Stay refined. Stay elevated.",
   phone: "+91 7005640194",
   whatsappNumber: "917005640194",
   email: "stay@gracelandbunks.com",
   address: "Near Aizawl Municipal Corporation, Aizawl, Mizoram",
-  mapsLink:
-    "https://earth.app.goo.gl/?apn=com.google.earth&isi=293622097&ius=googleearth&link=https%3a%2f%2fearth.google.com%2fweb%2fsearch%2fGraceland%2bBunks,%2bnear%2bAizawl%2bMunicipal%2bCorporation,%2bAizawl,%2bMizoram%2f%4023.7441639,92.7381991,991.95731054a,1877.17938218d,35y,0h,0t,0r%2fdata%3dCrMBGoQBEn4KJTB4Mzc0ZGViMDAyYzIxYmI0MzoweDc2NDZmNzYzOWRhMzk2NTUZI119hoG-N0Ah8htwpz4vV0AqQ0dyYWNlbGFuZCBCdW5rcywgbmVhciBBaXphd2wgTXVuaWNpcGFsIENvcnBvcmF0aW9uLCBBaXphd2wsIE1pem9yYW0YAiABIiYKJAnz2JSXnbk3QBHY9qajzLc3QBlUAT7y5i1XQCHulxgIby1XQEICCAFCAggASg0I____________ARAA",
+  mapsLink: "https://earth.app.goo.gl/?apn=com.google.earth&isi=293622097&ius=googleearth&link=https%3a%2f%2fearth.google.com%2fweb%2fsearch%2fGraceland%2bBunks,%2bnear%2bAizawl%2bMunicipal%2bCorporation,%2bAizawl,%2bMizoram%2f%4023.7441639,92.7381991,991.95731054a,1877.17938218d,35y,0h,0t,0r%2fdata%3dCrMBGoQBEn4KJTB4Mzc0ZGViMDAyYzIxYmI0MzoweDc2NDZmNzYzOWRhMzk2NTUZI119hoG-N0Ah8htwpz4vV0AqQ0dyYWNlbGFuZCBCdW5rcywgbmVhciBBaXphd2wgTXVuaWNpcGFsIENvcnBvcmF0aW9uLCBBaXphd2wsIE1pem9yYW0YAiABIiYKJAnz2JSXnbk3QBHY9qajzLc3QBlUAT7y5i1XQCHulxgIby1XQEICCAFCAggASg0I____________ARAA",
   pricing: "₹600",
   pricingNote: "Per person / per night • Includes ₹100 discount and all taxes",
   capacity: "10 bunk beds + 1 extra bed • Up to 11 guests",
-  bookingPolicy:
-    "A 50% advance payment of the total booking amount is required to confirm reservation. The remaining balance must be settled upon arrival at check-in.",
+  bookingPolicy: "A 50% advance payment of the total booking amount is required to confirm reservation. The remaining balance must be settled upon arrival at check-in.",
   hours: ["Check-in: 12:00 PM onwards", "Check-out: Before 1:00 PM"],
   highlights: [
     "Premium unisex shared accommodation",
@@ -38,17 +36,9 @@ const business = {
     "Near bus stand, taxi stand, and city access points",
   ],
   amenities: [
-    "Air Conditioned",
-    "Privacy Curtains",
-    "Socket Near Every Bed",
-    "Free High-Speed Wi‑Fi",
-    "24 Hours Security & CCTV",
-    "Locker Facility",
-    "Hot & Cold Water",
-    "Indian & Western Toilets",
-    "Hair Dryer & Steam Iron",
-    "Drying Area",
-    "Restaurant One Floor Up",
+    "Air Conditioned", "Privacy Curtains", "Socket Near Every Bed", "Free High-Speed Wi‑Fi",
+    "24 Hours Security & CCTV", "Locker Facility", "Hot & Cold Water",
+    "Indian & Western Toilets", "Hair Dryer & Steam Iron", "Drying Area", "Restaurant One Floor Up"
   ],
   transit: [
     "1 Minute Walk from Inter State Bus Terminal",
@@ -81,13 +71,7 @@ function SectionTitle({ eyebrow, title, text, dark = false }) {
 
 export default function App() {
   const [formData, setFormData] = useState({
-    fullName: "",
-    contact: "",
-    checkIn: "",
-    checkOut: "",
-    guests: "1",
-    notes: "",
-    paymentConfirmed: false,
+    fullName: "", contact: "", checkIn: "", checkOut: "", guests: "1", notes: "", paymentConfirmed: false,
   });
   const [submitStatus, setSubmitStatus] = useState("");
   const [bookingSubmitted, setBookingSubmitted] = useState(false);
@@ -95,6 +79,7 @@ export default function App() {
   const requestedGuests = Math.max(1, Number(formData.guests || 1));
   const estimatedAdvancePayment = requestedGuests * 300;
   const estimatedBalancePayment = requestedGuests * 300;
+  const canSubmitBooking = requestedGuests <= totalCapacity && formData.paymentConfirmed;
 
   const availabilityMessage = useMemo(() => {
     if (!formData.checkIn || !formData.checkOut) {
@@ -103,25 +88,18 @@ export default function App() {
     return `Requested stay: ${formData.checkIn} to ${formData.checkOut}. Final confirmation will be checked in our reservation system.`;
   }, [formData.checkIn, formData.checkOut]);
 
-  const canSubmitBooking = requestedGuests <= totalCapacity && formData.paymentConfirmed;
-
-  const handleChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const handleChange = (field, value) => setFormData((prev) => ({ ...prev, [field]: value }));
 
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
-
     if (requestedGuests > totalCapacity) {
       setSubmitStatus("Selected guests exceed maximum capacity. Please reduce guest count or contact us on WhatsApp.");
       return;
     }
-
     if (!formData.paymentConfirmed) {
       setSubmitStatus("Please confirm that you understand the 50% advance payment requirement before submitting your booking request.");
       return;
     }
-
     setSubmitStatus("Sending booking request...");
     setBookingSubmitted(false);
 
@@ -135,23 +113,11 @@ export default function App() {
       notes: formData.notes || "-",
       submittedAt: new Date().toISOString(),
       requestedGuests,
-      availabilityTracked: false,
       paymentStatus: "Pending Advance Payment",
       bookingStatus: "Pending Confirmation",
       advanceAmount: estimatedAdvancePayment,
       balanceAmount: estimatedBalancePayment,
     };
-
-    const message = [
-      `Hello ${business.name}, I would like to make a booking inquiry.`,
-      "",
-      `Full name: ${payload.fullName}`,
-      `Phone or email: ${payload.contact}`,
-      `Check-in: ${payload.checkIn}`,
-      `Check-out: ${payload.checkOut}`,
-      `Guests: ${payload.guests}`,
-      `Notes: ${payload.notes}`,
-    ].join("\n");
 
     try {
       await fetch(bookingSheetEndpoint, {
@@ -160,21 +126,11 @@ export default function App() {
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload),
       });
-
       setSubmitStatus("Booking request submitted successfully. A 50% advance payment is required to confirm your reservation.");
       setBookingSubmitted(true);
-      setFormData({
-        fullName: "",
-        contact: "",
-        checkIn: "",
-        checkOut: "",
-        guests: "1",
-        notes: "",
-        paymentConfirmed: false,
-      });
-    } catch (error) {
-      setSubmitStatus("Could not submit booking online. Opening WhatsApp instead.");
-      window.open(`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+      setFormData({ fullName: "", contact: "", checkIn: "", checkOut: "", guests: "1", notes: "", paymentConfirmed: false });
+    } catch {
+      setSubmitStatus("Could not submit booking online. Please contact us on WhatsApp.");
     }
   };
 
@@ -205,11 +161,10 @@ export default function App() {
               <img src={logo} alt="Graceland Bunks Logo" className="hero-badge-logo" />
               <span>Official Boutique Bunk Stay in Aizawl</span>
             </div>
-            <h1 className="hero-title">Stay simple. Stay stylish. Stay rested.</h1>
+            <h1 className="hero-title">Stay refined. Stay elevated.</h1>
             <p className="hero-subtitle">{business.tagline}</p>
-            <p className="hero-text">
-              Graceland Bunks is a premium unisex shared accommodation designed for travelers who value comfort, aesthetics, and convenience.
-            </p>
+            <p className="hero-luxury-note">Boutique bunk accommodation with elegant comfort in the heart of Aizawl.</p>
+            <p className="hero-text">Graceland Bunks is a premium unisex shared accommodation designed for travelers who value comfort, aesthetics, and convenience.</p>
             <div className="hero-actions">
               <a href="#booking" className="btn btn-primary">Reserve Your Stay</a>
               <a href="#overview" className="btn btn-secondary">Explore Property</a>
@@ -223,73 +178,33 @@ export default function App() {
               <div className="pill">{business.pricingNote}</div>
               <div className="pill">{business.capacity}</div>
             </div>
-
             <div className="card">
               <div className="small-label accent">Guest highlights</div>
-              <div className="stack">
-                {business.highlights.map((item) => <div key={item} className="soft-pill">{item}</div>)}
-              </div>
+              <div className="stack">{business.highlights.map((item) => <div key={item} className="soft-pill">{item}</div>)}</div>
             </div>
           </div>
         </section>
 
         <section id="overview" className="container section">
-          <SectionTitle
-            eyebrow="Property Overview"
-            title="Everything you need for a comfortable stay"
-            text="A clean and convenient stay experience with practical facilities, central access, and guest-friendly policies."
-          />
+          <SectionTitle eyebrow="Property Overview" title="Everything you need for a comfortable stay" text="A clean and convenient stay experience with practical facilities, central access, and guest-friendly policies." />
           <div className="grid-three">
-            <div className="card">
-              <h3>Accommodation</h3>
-              <div className="stack">
-                <div className="soft-pill">Premium unisex shared accommodation</div>
-                <div className="soft-pill">10 bunk beds + 1 extra bed</div>
-                <div className="soft-pill">Designed for up to 11 guests</div>
-              </div>
-            </div>
-            <div className="card">
-              <h3>Pricing</h3>
-              <div className="stack">
-                <div className="soft-pill">{business.pricing} per person / per night</div>
-                <div className="soft-pill">Includes ₹100 discount and all taxes</div>
-                <div className="soft-pill">Great value for solo and group travelers</div>
-              </div>
-            </div>
-            <div className="card">
-              <h3>Check-in Details</h3>
-              <div className="stack">
-                {business.hours.map((item) => <div key={item} className="soft-pill">{item}</div>)}
-              </div>
-            </div>
+            <div className="card"><h3>Accommodation</h3><div className="stack"><div className="soft-pill">Premium unisex shared accommodation</div><div className="soft-pill">10 bunk beds + 1 extra bed</div><div className="soft-pill">Designed for up to 11 guests</div></div></div>
+            <div className="card"><h3>Pricing</h3><div className="stack"><div className="soft-pill">{business.pricing} per person / per night</div><div className="soft-pill">Includes ₹100 discount and all taxes</div><div className="soft-pill">Great value for solo and group travelers</div></div></div>
+            <div className="card"><h3>Check-in Details</h3><div className="stack">{business.hours.map((item) => <div key={item} className="soft-pill">{item}</div>)}</div></div>
           </div>
         </section>
 
         <section id="gallery" className="container section">
-          <SectionTitle
-            eyebrow="Gallery"
-            title="See the stay before you book"
-            text="A preview of the actual property, bunks, interiors, and guest environment at Graceland Bunks."
-          />
+          <SectionTitle eyebrow="Gallery" title="See the stay before you book" text="A preview of the actual property, bunks, interiors, and guest environment at Graceland Bunks." />
           <div className="gallery-grid">
-            <img src={interiorGroup} alt="Guests at Graceland Bunks" className="gallery-large" />
-            <img src={interior1} alt="Bunk interior view 1" />
-            <img src={interior2} alt="Bunk interior view 2" />
-            <img src={interior3} alt="Bunk interior view 3" />
+            <img src={interiorGroup} alt="Guests at Graceland Bunks" className="gallery-large luxury-hover" />
+            <img src={interior1} alt="Bunk interior view 1" className="luxury-hover" />
+            <img src={interior2} alt="Bunk interior view 2" className="luxury-hover" />
+            <img src={interior3} alt="Bunk interior view 3" className="luxury-hover" />
           </div>
           <div className="two-col mt-24">
-            <div className="card">
-              <h3>Amenities & Facilities</h3>
-              <div className="stack">
-                {business.amenities.map((item) => <div key={item} className="soft-pill">{item}</div>)}
-              </div>
-            </div>
-            <div className="card">
-              <h3>Transit Convenience</h3>
-              <div className="stack">
-                {business.transit.map((item) => <div key={item} className="soft-pill">{item}</div>)}
-              </div>
-            </div>
+            <div className="card"><h3>Amenities & Facilities</h3><div className="stack">{business.amenities.map((item) => <div key={item} className="soft-pill">{item}</div>)}</div></div>
+            <div className="card"><h3>Transit Convenience</h3><div className="stack">{business.transit.map((item) => <div key={item} className="soft-pill">{item}</div>)}</div></div>
           </div>
           <div className="two-col mt-24">
             <img src={poster} alt="Amenities poster" className="info-image" />
@@ -298,15 +213,11 @@ export default function App() {
         </section>
 
         <section id="guide" className="container section">
-          <SectionTitle
-            eyebrow="Mini Tourist Guide"
-            title="Explore Mizoram during your stay"
-            text="Nearby places that travelers can enjoy easily from Graceland Bunks."
-          />
+          <SectionTitle eyebrow="Mini Tourist Guide" title="Explore Mizoram during your stay" text="Nearby places that travelers can enjoy easily from Graceland Bunks." />
           <div className="tour-grid">
             {business.attractions.map((place, index) => (
               <div key={place.name} className="tour-card">
-                <img src={place.image} alt={place.name} className="tour-image" />
+                <img src={place.image} alt={place.name} className="tour-image luxury-hover" />
                 <div className="tour-body">
                   <div className="tour-index">{index + 1}</div>
                   <div className="tour-name">{place.name}</div>
@@ -319,97 +230,41 @@ export default function App() {
 
         <section className="container section">
           <div className="location-card">
-            <div>
-              <SectionTitle eyebrow="Location" title="Find Graceland Bunks" text={business.address} />
-            </div>
-            <a href={business.mapsLink} target="_blank" rel="noreferrer" className="btn btn-primary">
-              Open location in Google Maps
-            </a>
+            <div><SectionTitle eyebrow="Location" title="Find Graceland Bunks" text={business.address} /></div>
+            <a href={business.mapsLink} target="_blank" rel="noreferrer" className="btn btn-primary">Open location in Google Maps</a>
           </div>
         </section>
 
         <section id="booking" className="container section">
           <div className="booking-grid">
             <div className="booking-info">
-              <SectionTitle
-                eyebrow="Booking & Payment"
-                title="Reserve your bunk stay"
-                text="Send your stay details and we will confirm availability as soon as possible."
-                dark
-              />
+              <SectionTitle eyebrow="Booking & Payment" title="Reserve your bunk stay" text="Send your stay details and we will confirm availability as soon as possible." dark />
               <div className="panel">{business.bookingPolicy}</div>
               <div className="panel">Bookings are automatically recorded into our reservation management system upon submission with payment and booking status tracking.</div>
               <div className="panel"><strong>Availability Status:</strong><br />{availabilityMessage}</div>
-              <div className="panel">
-                <strong>Payment Tracking:</strong><br />
-                Initial status: Pending Advance Payment<br />
-                Booking remains unconfirmed until payment is verified.<br /><br />
-                <strong>Payment Details:</strong><br />
-                Name: {business.paymentDetails.name}<br />
-                UPI: {business.paymentDetails.upi}
-              </div>
+              <div className="panel"><strong>Payment Tracking:</strong><br />Initial status: Pending Advance Payment<br />Booking remains unconfirmed until payment is verified.<br /><br /><strong>Payment Details:</strong><br />Name: {business.paymentDetails.name}<br />UPI: {business.paymentDetails.upi}</div>
               <div className="panel">Advance payment is required to confirm reservation</div>
               <div className="panel">The remaining balance must be settled at check-in</div>
             </div>
 
             <div className="card booking-form-wrap">
               <form className="booking-form" onSubmit={handleBookingSubmit}>
-                <label>
-                  <span>Full name</span>
-                  <input type="text" value={formData.fullName} onChange={(e) => handleChange("fullName", e.target.value)} placeholder="Your name" />
-                </label>
-                <label>
-                  <span>Phone or email</span>
-                  <input type="text" value={formData.contact} onChange={(e) => handleChange("contact", e.target.value)} placeholder="Your contact details" />
-                </label>
+                <label><span>Full name</span><input type="text" value={formData.fullName} onChange={(e) => handleChange("fullName", e.target.value)} placeholder="Your name" /></label>
+                <label><span>Phone or email</span><input type="text" value={formData.contact} onChange={(e) => handleChange("contact", e.target.value)} placeholder="Your contact details" /></label>
                 <div className="two-inputs">
-                  <label>
-                    <span>Check-in</span>
-                    <input type="date" value={formData.checkIn} onChange={(e) => handleChange("checkIn", e.target.value)} />
-                  </label>
-                  <label>
-                    <span>Check-out</span>
-                    <input type="date" value={formData.checkOut} onChange={(e) => handleChange("checkOut", e.target.value)} />
-                  </label>
+                  <label><span>Check-in</span><input type="date" value={formData.checkIn} onChange={(e) => handleChange("checkIn", e.target.value)} /></label>
+                  <label><span>Check-out</span><input type="date" value={formData.checkOut} onChange={(e) => handleChange("checkOut", e.target.value)} /></label>
                 </div>
-                <label>
-                  <span>Guests</span>
-                  <input type="number" min="1" max={totalCapacity} value={formData.guests} onChange={(e) => handleChange("guests", e.target.value)} />
-                </label>
-
+                <label><span>Guests</span><input type="number" min="1" max={totalCapacity} value={formData.guests} onChange={(e) => handleChange("guests", e.target.value)} /></label>
                 <div className="soft-pill">{`Requested: ${requestedGuests} guest(s) • Maximum capacity: ${totalCapacity} beds`}</div>
                 <div className="soft-pill">{`Estimated advance payment to confirm booking: ₹${estimatedAdvancePayment}`}</div>
                 <div className="soft-pill">{`Estimated balance payable at check-in: ₹${estimatedBalancePayment}`}</div>
-
-                <label>
-                  <span>Notes</span>
-                  <textarea rows="4" value={formData.notes} onChange={(e) => handleChange("notes", e.target.value)} placeholder="Tell us anything important about your stay" />
-                </label>
-
+                <label><span>Notes</span><textarea rows="4" value={formData.notes} onChange={(e) => handleChange("notes", e.target.value)} placeholder="Tell us anything important about your stay" /></label>
                 <label className="checkbox-row">
-                  <input
-                    type="checkbox"
-                    checked={formData.paymentConfirmed}
-                    onChange={(e) => handleChange("paymentConfirmed", e.target.checked)}
-                  />
-                  <span>
-                    I understand that a 50% advance payment is required to confirm my booking, and the remaining balance must be paid upon arrival at check-in.
-                  </span>
+                  <input type="checkbox" checked={formData.paymentConfirmed} onChange={(e) => handleChange("paymentConfirmed", e.target.checked)} />
+                  <span>I understand that a 50% advance payment is required to confirm my booking, and the remaining balance must be paid upon arrival at check-in.</span>
                 </label>
-
-                {submitStatus ? (
-                  <div className="status-box">
-                    <div>{submitStatus}</div>
-                    {bookingSubmitted ? (
-                      <div className="status-next">
-                        <div className="next-box">Next step: Please complete 50% advance payment to confirm your reservation.</div>
-                        <div className="next-box">After payment, send your payment screenshot on WhatsApp at {business.phone}.</div>
-                        <div className="next-box">Your booking will remain under <strong>Pending Confirmation</strong> until payment is verified.</div>
-                      </div>
-                    ) : null}
-                  </div>
-                ) : null}
-
+                {submitStatus ? <div className="status-box"><div>{submitStatus}</div>{bookingSubmitted ? <div className="status-next"><div className="next-box">Next step: Please complete 50% advance payment to confirm your reservation.</div><div className="next-box">After payment, send your payment screenshot on WhatsApp at {business.phone}.</div><div className="next-box">Your booking will remain under <strong>Pending Confirmation</strong> until payment is verified.</div></div> : null}</div> : null}
                 <button type="submit" disabled={!canSubmitBooking} className={`btn btn-primary full ${!canSubmitBooking ? "disabled" : ""}`}>
                   {requestedGuests > totalCapacity ? "Not Enough Beds Available" : formData.paymentConfirmed ? "Send Booking Request" : "Confirm Payment Policy to Continue"}
                 </button>
@@ -423,10 +278,8 @@ export default function App() {
             <div className="contact-card">
               <SectionTitle eyebrow="Contact" title="Contact & stay details" dark />
               <div className="contact-lines">
-                <a href={`https://wa.me/${business.whatsappNumber}`} target="_blank" rel="noreferrer" className="btn btn-light">Chat on WhatsApp</a>
-                <p>{business.phone}</p>
-                <p>{business.email}</p>
-                <p>{business.address}</p>
+                <a href={`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent("Hello Graceland Bunks, I would like to enquire about a stay.")}`} target="_blank" rel="noreferrer" className="btn btn-light">Chat on WhatsApp</a>
+                <p>{business.phone}</p><p>{business.email}</p><p>{business.address}</p>
               </div>
             </div>
             <div className="card">
@@ -441,6 +294,8 @@ export default function App() {
           </div>
         </section>
       </main>
+
+      <a href={`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent("Hello Graceland Bunks, I would like to enquire about a stay.")}`} target="_blank" rel="noreferrer" className="floating-whatsapp">WhatsApp</a>
 
       <footer className="footer">
         <div className="container footer-inner">
