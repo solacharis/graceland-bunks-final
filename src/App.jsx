@@ -151,6 +151,7 @@ const canSubmitBooking =
         body: JSON.stringify(payload),
       });
       setSubmitStatus("Booking request submitted successfully. A 50% advance payment is required to confirm your reservation.");
+      window.open(`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
       setBookingSubmitted(true);
       setFormData({ fullName: "", contact: "", checkIn: "", checkOut: "", guests: "1", notes: "", paymentConfirmed: false });
     } catch {
