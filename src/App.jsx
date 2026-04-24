@@ -89,7 +89,17 @@ Check-out date: ${formData.checkOut || ""}
 Number of guests: ${formData.guests || ""}
 Any special request: ${formData.notes || ""}`;
   
-  const canSubmitBooking = requestedGuests <= totalCapacity && formData.paymentConfirmed;
+  const hasRequiredBookingDetails =
+  formData.fullName.trim() &&
+  formData.contact.trim() &&
+  formData.checkIn &&
+  formData.checkOut &&
+  requestedGuests >= 1;
+
+const canSubmitBooking =
+  requestedGuests <= totalCapacity &&
+  formData.paymentConfirmed &&
+  hasRequiredBookingDetails;
 
   const availabilityMessage = useMemo(() => {
     if (!formData.checkIn || !formData.checkOut) {
@@ -106,10 +116,14 @@ Any special request: ${formData.notes || ""}`;
       setSubmitStatus("Selected guests exceed maximum capacity. Please reduce guest count or contact us on WhatsApp.");
       return;
     }
-    if (!formData.paymentConfirmed) {
-      setSubmitStatus("Please confirm that you understand the 50% advance payment requirement before submitting your booking request.");
-      return;
-    }
+    if (!hasRequiredBookingDetails) {
+  setSubmitStatus("Please fill in your name, contact, check-in date, check-out date, and number of guests before submitting.");
+  return;
+}
+   if (!formData.paymentConfirmed) {
+  setSubmitStatus("Please confirm that you understand the 50% advance payment requirement before submitting your booking request.");
+  return;
+} 
     setSubmitStatus("Sending booking request...");
     setBookingSubmitted(false);
 
