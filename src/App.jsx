@@ -278,7 +278,7 @@ export default function App() {
             <div className="contact-card">
               <SectionTitle eyebrow="Contact" title="Contact & stay details" dark />
               <div className="contact-lines">
-                <a href={`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent("Hello Graceland Bunks, I would like to enquire about a stay.")}`} target="_blank" rel="noreferrer" className="btn btn-light">Chat on WhatsApp</a>
+                <a href={`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent("Hi Graceland Bunks, I would like to book a stay.\n\nName:\nCheck-in date:\nCheck-out date:\nNumber of guests:\nAny special request:.")}`} target="_blank" rel="noreferrer" className="btn btn-light">Chat on WhatsApp</a>
                 <p>{business.phone}</p><p>{business.email}</p><p>{business.address}</p>
               </div>
             </div>
@@ -295,7 +295,7 @@ export default function App() {
         </section>
       </main>
 
-      <a href={`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent("Hello Graceland Bunks, I would like to enquire about a stay.")}`} target="_blank" rel="noreferrer" className="floating-whatsapp">WhatsApp</a>
+      <a href={`https://wa.me/${business.whatsappNumber}?text=${encodeURIComponent("Hi Graceland Bunks, I would like to book a stay.\n\nName:\nCheck-in date:\nCheck-out date:\nNumber of guests:\nAny special request:")}`} target="_blank" rel="noreferrer" className="floating-whatsapp">WhatsApp</a>
 
       <footer className="footer">
         <div className="container footer-inner">
