@@ -279,7 +279,6 @@ export default function App() {
               <SectionTitle eyebrow="Contact" title="Contact & stay details" dark />
               <div className="contact-lines">
 <a href={`https://wa.me/${business.whatsappNumber}?text=Hi Graceland Bunks, I would like to book a stay.
-
 Name:
 Check-in date:
 Check-out date:
@@ -302,7 +301,6 @@ Any special request:`} target="_blank" rel="noreferrer" className="btn btn-light
       </main>
 
       <a href={`https://wa.me/${business.whatsappNumber}?text=Hi Graceland Bunks, I would like to book a stay.
-
 Name:
 Check-in date:
 Check-out date:
